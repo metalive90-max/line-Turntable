@@ -20,11 +20,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* 改為靠上對齊，配合捲動 */
             min-height: 100vh;
             margin: 0;
             font-family: 'Noto Sans TC', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden; /* 防止左右滑動 */
+            overflow-y: auto;   /* 開放垂直滑動，避免內容被遮擋 */
             color: #004080;
             position: relative;
         }
@@ -61,15 +62,17 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
+            padding-top: 1.5rem;
+            padding-bottom: 3rem; /* 底部多留一些空間給開獎文字 */
         }
 
-        /* 轉盤容器，加上厚實的白色立體邊框感 */
+        /* 轉盤容器，稍微縮小整體尺寸以適應更多手機螢幕 */
         .wheel-container {
             position: relative;
-            width: 320px;
-            height: 320px;
-            margin-bottom: 2.5rem;
-            margin-top: 1rem;
+            width: 290px;  /* 微調縮小 */
+            height: 290px; /* 微調縮小 */
+            margin-bottom: 1.5rem; /* 縮減底部間距 */
+            margin-top: 0.5rem;
             border-radius: 50%;
             background-color: #ffffff;
             padding: 8px; /* 留出白邊 */
@@ -79,14 +82,14 @@
         /* 水滴形狀的指針 (亮橘色) */
         .pointer {
             position: absolute;
-            top: -20px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 45px solid #ff6b00; /* 海報上的亮橘色 */
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            border-top: 40px solid #ff6b00; /* 海報上的亮橘色 */
             z-index: 20;
             filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2));
         }
@@ -129,9 +132,9 @@
         .result-box {
             background: #ffffff;
             border: 4px solid #005bb5;
-            padding: 15px 30px;
+            padding: 12px 20px;
             border-radius: 20px;
-            min-height: 70px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -153,13 +156,13 @@
             border: 3px solid #005bb5;
             border-radius: 50px; /* 圓角 */
             padding: 6px 16px 6px 6px;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             box-shadow: 0 4px 0 rgba(0, 91, 181, 0.2);
             z-index: 20; /* 確保在泡泡上方 */
         }
         .profile-avatar {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 2px solid #00a0e9;
             object-fit: cover;
@@ -168,16 +171,16 @@
         /* 模仿海報的超立體漫畫風標題 */
         .title-comic {
             color: #00a0e9; /* 亮水藍色 */
-            /* 利用多重文字陰影疊加出粗白邊與深藍色厚度 */
+            /* 配合字體縮小，微調文字陰影的厚度比例 */
             text-shadow: 
-                -3px -3px 0 #fff,  
-                 3px -3px 0 #fff,
-                -3px  3px 0 #fff,
-                 3px  3px 0 #fff,
-                 0px  6px 0 #004080;
+                -2px -2px 0 #fff,  
+                 2px -2px 0 #fff,
+                -2px  2px 0 #fff,
+                 2px  2px 0 #fff,
+                 0px  4px 0 #004080;
             letter-spacing: 4px;
             margin-bottom: 0.5rem;
-            font-size: 3.5rem;
+            font-size: 2rem; /* 縮小三分之一的標題大小 */
             line-height: 1.2;
         }
     </style>
@@ -195,14 +198,14 @@
     <div class="content-wrapper max-w-md px-4">
 
         <!-- 用戶資料顯示區塊 (預設隱藏，取得資料後再顯示) -->
-        <div id="profileContainer" class="profile-box hidden mt-4">
+        <div id="profileContainer" class="profile-box hidden">
             <img id="userAvatar" src="" alt="Avatar" class="profile-avatar">
-            <p id="userName" class="text-lg text-blue-800 font-bold m-0">載入中...</p>
+            <p id="userName" class="text-base text-blue-800 font-bold m-0">載入中...</p>
         </div>
 
         <!-- 卡通風格標題 -->
         <h1 class="font-black title-comic mt-2">抽獎轉盤</h1>
-        <p class="text-sm text-blue-700 font-bold mb-8 bg-white/60 px-4 py-1 rounded-full border border-blue-200 shadow-sm">完成任務，挑戰好禮！</p>
+        <p class="text-sm text-blue-700 font-bold mb-6 bg-white/60 px-4 py-1 rounded-full border border-blue-200 shadow-sm">完成任務，挑戰好禮！</p>
         
         <div class="wheel-container mx-auto">
             <!-- 橘色指針 -->
@@ -211,14 +214,14 @@
             <canvas id="wheelCanvas" width="600" height="600"></canvas>
         </div>
 
-        <!-- 立體橘色按鈕 -->
-        <button id="spinBtn" class="action-btn font-black py-4 px-10 text-2xl w-full max-w-[280px]">
+        <!-- 立體橘色按鈕 (稍微把上下 padding 調小一點點) -->
+        <button id="spinBtn" class="action-btn font-black py-3 px-10 text-2xl w-full max-w-[280px]">
             GO ! 抽獎
         </button>
 
         <!-- 結果顯示區塊 -->
-        <div class="mt-8 w-full result-box hidden" id="resultContainer">
-            <p id="resultText" class="text-2xl font-black text-orange-500 m-0"></p>
+        <div class="mt-6 w-full result-box hidden" id="resultContainer">
+            <p id="resultText" class="text-xl font-black text-orange-500 m-0"></p>
         </div>
     </div>
 
@@ -422,6 +425,11 @@
                         resultText.style.color = "#ff6b00"; 
                         resultText.innerText = `🎉 恭喜抽中：${prizes[winnerIndex].text} !`;
                     }
+                    
+                    // 確保結果顯示後可以捲動到底部
+                    setTimeout(() => {
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                    }, 100);
                 }
             }
 
