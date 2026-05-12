@@ -321,12 +321,10 @@
                 const textX = radius - 30; // 稍微往外推一點
                 const maxTextWidth = radius - 80; // 設定文字最大寬度，避免與中心重疊
                 
-                // 如果是深色背景(如鮮豔藍)，給文字加一點白邊讓它跳出來
+                // 統一為所有獎項文字加上白邊框與深藍色字體
                 ctx.lineWidth = 4;
                 ctx.strokeStyle = "#ffffff";
-                if (prizes[i].color === "#25a8ff" || prizes[i].color === "#ff9e3d") {
-                     ctx.strokeText(prizes[i].text, textX, 0, maxTextWidth);
-                }
+                ctx.strokeText(prizes[i].text, textX, 0, maxTextWidth);
 
                 ctx.fillStyle = "#004080"; // 深藍色文字
                 ctx.fillText(prizes[i].text, textX, 0, maxTextWidth);
